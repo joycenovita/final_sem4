@@ -19,7 +19,7 @@ class UserController extends Controller
         $users = User::all();
      
         // Return the view with the users data
-        return view('users.index', ['users' => $users]);
+        return response()->json(['message' => 'Successfully fetched users', 'data' => $users], 200);
     }
 
 
@@ -48,7 +48,7 @@ class UserController extends Controller
         $user->save();
 
         // Redirect to the users index page with success message
-        return redirect()->route('users.index')->with('success', 'User created successfully!');
+        return response()->json(['message' => 'User successfully created', 'data' => $user], 201);
     }
 
     /**
@@ -59,11 +59,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        // Find the user by id
-        $user = User::findOrFail($id);
-
-        // Return the view with the user data
-        return view('users.show', ['user' => $user]);
+         // Find the user by id
+        $user= User::find($id);
+        return response()-> json(['message' => 'Successfully fetched user', 'data' => $user], 200);
     }
 
     /**
@@ -79,18 +77,18 @@ class UserController extends Controller
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|unique:users,email,' . $id,
+            'email' => 'required|unique:users,email',
         ]);
 
         // Find the user by id and update its data
-        $user = User::findOrFail($id);
+        $user = User::find($id);
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->email = $request->email;
-        $user->save();
+        $user->update();
 
         // Redirect back to the user show page with success message
-        return redirect()->route('users.show', ['user' => $id])->with('success', 'User updated successfully!');
+        return response()->json(['message' => 'Successfully update user', 'data' => $user], 200);
     }
 
     /**
@@ -102,10 +100,10 @@ class UserController extends Controller
     public function destroy($id)
     {
         // Find the user by id and delete it
-        $user = User::findOrFail($id);
+        $user = User::find($id);
         $user->delete();
 
         // Redirect to the users index page with success message
-        return redirect()->route('users.index')->with('success', 'User deleted successfully!');
+        return response()->json(['message' => 'Successfully delete user', 'data' => $user], 200);
     }
 }
