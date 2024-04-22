@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\JournalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,5 +27,13 @@ Route::prefix('users')->group(function () {
     Route::post('/update/{id}', [UserController::class, 'update']);
     Route::delete('/delete/{id}', [UserController::class, 'destroy']);
 });
+
+Route::prefix('journals')->group(function () {
+    Route::post('/', [JournalController::class, 'addJournal']);
+    Route::put('/{id}', [JournalController::class, 'updateJournal']);
+});
+
+
+
 
 
