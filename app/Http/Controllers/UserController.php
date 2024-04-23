@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -17,7 +18,7 @@ class UserController extends Controller
     {
         // Retrieve all users from the database
         $users = User::all();
-     
+
         // Return the view with the users data
         return response()->json(['message' => 'Successfully fetched users', 'data' => $users], 200);
     }
@@ -71,8 +72,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
+
+        // auth
+        $user = Auth::user()->id;
+
         // Validate the request data
         $request->validate([
             'first_name' => 'required',
@@ -81,7 +86,7 @@ class UserController extends Controller
         ]);
 
         // Find the user by id and update its data
-        $user = User::find($id);
+        $user = User::find($user);
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->email = $request->email;
@@ -97,9 +102,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy()
     {
         // Find the user by id and delete it
+
+        $id = Auth::user()->id;
+
         $user = User::find($id);
         $user->delete();
 

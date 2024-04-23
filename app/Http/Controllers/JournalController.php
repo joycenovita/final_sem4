@@ -4,9 +4,28 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Journal;
+// auth
+use Illuminate\Support\Facades\Auth;
+// carbon
+use Carbon\Carbon;
 
 class JournalController extends Controller
 {
+
+    public function index()
+    {
+        $users = Auth::user()->id;
+        $journals = Journal::where('user_id', $users)->get();
+        return response()->json(['message' => 'Successfully fetched all Journal', 'data' => $journals], 200);
+    }
+
+    public function journal_now()
+    {
+        $users = Auth::user()->id;
+        $journals = Journal::where('user_id', $users)->whereDate('date', Carbon::today())->get();
+        return response()->json(['message' => 'Successfully fetched all Journal', 'data' => $journals], 200);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,16 +35,16 @@ class JournalController extends Controller
     {
         $request->validate([
             'title' => 'required|string',
-            'date' => 'required|date',
             'content' => 'required|string',
-            'user_id' => 'required|exists:users,id'
         ]);
+
+        $users = Auth::user()->id;
 
         $journal = new Journal();
         $journal->title = $request->title;
-        $journal->date = $request->date;
+        $journal->date = Carbon::now();
         $journal->content = $request->content;
-        $journal->user_id = $request->user_id;
+        $journal->user_id = $users;
         $journal->save();
 
         return response()->json(['message' => 'Journal entry added successfully', 'data' => $journal], 201);
@@ -40,7 +59,7 @@ class JournalController extends Controller
     public function show($id)
     {
          // Find the user by id
-        $user= User::find($id);
+        $journal= Journal::find($id);
         return response()-> json(['message' => 'Successfully fetched Journal', 'data' => $journal], 200);
     }
 
@@ -57,16 +76,12 @@ class JournalController extends Controller
     {
         $request->validate([
             'title' => 'required|string',
-            'date' => 'required|date',
             'content' => 'required|string',
-            'user_id' => 'required|exists:users,id'
         ]);
 
         $journal = Journal::findOrFail($id);
         $journal->title = $request->title;
-        $journal->date = $request->date;
         $journal->content = $request->content;
-        $journal->user_id = $request->user_id;
         $journal->save();
 
         return response()->json(['message' => 'Journal entry updated successfully', 'data' => $journal ], 200);
@@ -83,7 +98,7 @@ class JournalController extends Controller
     public function destroy($id)
     {
         // Find the user by id and delete it
-        $journal = User::find($id);
+        $journal = Journal::find($id);
         $journal->delete();
 
         // Redirect to the users index page with success message
