@@ -26,16 +26,6 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 });
 
-Route::prefix('journal')->group(function () {
-    Route::post('/tambah', [JournalController::class, 'addJournal']);
-    Route::put('/{id}', [JournalController::class, 'updateJournal']);
-});
-
-
-
-
-
-
 
 Route::post('/register', [UserController::class, 'store']);
 Route::post('/login', [AuthController::class, 'login']);
