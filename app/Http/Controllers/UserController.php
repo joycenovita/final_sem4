@@ -87,8 +87,6 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->update();
 
-        dd($users);
-
         // Redirect back to the user show page with success message
         return response()->json(['message' => 'Successfully update user', 'data' => $user], 200);
     }

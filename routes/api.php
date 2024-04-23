@@ -28,10 +28,12 @@ Route::prefix('users')->group(function () {
     Route::delete('/delete/{id}', [UserController::class, 'destroy']);
 });
 
-Route::prefix('journals')->group(function () {
-    Route::post('/', [JournalController::class, 'addJournal']);
+Route::prefix('journal')->group(function () {
+    Route::post('/tambah', [JournalController::class, 'addJournal']);
     Route::put('/{id}', [JournalController::class, 'updateJournal']);
 });
+
+
 
 
 

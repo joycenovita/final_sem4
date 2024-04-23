@@ -28,8 +28,22 @@ class JournalController extends Controller
         $journal->user_id = $request->user_id;
         $journal->save();
 
-        return response()->json(['message' => 'Journal entry added successfully'], 201);
+        return response()->json(['message' => 'Journal entry added successfully', 'data' => $journal], 201);
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+         // Find the user by id
+        $user= User::find($id);
+        return response()-> json(['message' => 'Successfully fetched Journal', 'data' => $journal], 200);
+    }
+
 
     /**
      * Update an existing journal entry.
@@ -38,6 +52,7 @@ class JournalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function updateJournal(Request $request, $id)
     {
         $request->validate([
@@ -54,6 +69,24 @@ class JournalController extends Controller
         $journal->user_id = $request->user_id;
         $journal->save();
 
-        return response()->json(['message' => 'Journal entry updated successfully'], 200);
+        return response()->json(['message' => 'Journal entry updated successfully', 'data' => $journal ], 200);
+
+
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        // Find the user by id and delete it
+        $journal = User::find($id);
+        $journal->delete();
+
+        // Redirect to the users index page with success message
+        return response()->json(['message' => 'Successfully delete Journal', 'data' => $journal], 200);
     }
 }
