@@ -23,8 +23,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'index']);
-        Route::get('/{id}', [UserController::class, 'show']);
-        Route::post('/update/{id}', [UserController::class, 'update']);
+        Route::get('/profile', [UserController::class, 'show']);
+        Route::post('/update', [UserController::class, 'update']);
         Route::post('/tambah', [UserController::class, 'store']);
         Route::delete('/delete/{id}', [UserController::class, 'destroy']);
     });
@@ -58,7 +58,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/today', [ResourceController::class, 'Resource_today']);
     });
 
-    Route::prefix('Chalengge')->group(function(){
+    Route::prefix('challenge')->group(function(){
         Route::get('/', [ChalenggeController::class, 'index']);
         Route::post('/add', [ChalenggeController::class, 'store']);
         Route::get('/{id}', [ChalenggeController::class, 'show']);

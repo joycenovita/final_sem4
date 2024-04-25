@@ -39,7 +39,7 @@ class ResourceController extends Controller
     {
         $users = Auth::user();
 
-        $resources = Resource::where('user_id', $users->id)->whereDate('tanggal', Carbon::today())->get();
+        $resources = Resource::where('user_id', $users->id)->whereDate('created_at', Carbon::today())->get();
 
         return response()->json([
             'status' => 'success',
@@ -71,7 +71,6 @@ class ResourceController extends Controller
             'tautan' => $request->tautan,
             'kategori' => $request->kategori,
             'user_id' => $users,
-            'tanggal' => Carbon::now()
         ]);
 
         return response()->json([

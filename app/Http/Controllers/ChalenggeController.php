@@ -98,6 +98,14 @@ class ChalenggeController extends Controller
     {
         $chalengge = Chalengge::find($id);
 
+        // validate
+        $request->validate([
+            'nama_tantangan' => 'required|string',
+            'deskripsi' => 'required|string',
+            'tanggal_mulai'=> 'required',
+            'tanggal_berakhir'=> 'nullable'
+        ]);
+
         if ($chalengge) {
             $chalengge->nama_tantangan = $request->nama_tantangan;
             $chalengge->deskripsi = $request->deskripsi;

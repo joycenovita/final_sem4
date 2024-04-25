@@ -11,7 +11,7 @@ class Resource extends Model
 
     protected $table = 'resources';
 
-    protected $fillable = ['judul', 'deskripsi', 'tautan', 'kategori', 'user_id', 'tanggal'];
+    protected $fillable = ['judul', 'deskripsi', 'tautan', 'kategori', 'user_id'];
 
 
     public function user()

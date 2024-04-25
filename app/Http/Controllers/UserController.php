@@ -58,10 +58,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
          // Find the user by id
-        $user= User::find($id);
+        $user = Auth::user()->id;
+        $user= User::find($user);
         return response()-> json(['message' => 'Successfully fetched user', 'data' => $user], 200);
     }
 
@@ -82,7 +83,7 @@ class UserController extends Controller
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|unique:users,email',
+            'email' => 'required',
         ]);
 
         // Find the user by id and update its data

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('nama_tantangan');
             $table->string('deskripsi');
             $table->date('tanggal_mulai');
-            $table->date('tanggal_berakhir');
+            $table->date('tanggal_berakhir')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
